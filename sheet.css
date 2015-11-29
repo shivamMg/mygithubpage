@@ -1,0 +1,21 @@
+* {
+  font-family: 'Raleway';
+}
+
+body {
+  /* 
+   * 'Black Felt' by E. van Zummeren
+   * http://www.evanzummeren.com/
+   * Downloaded from http://subtlepatterns.com/ 
+   * Under https://creativecommons.org/licenses/by-sa/3.0/
+   */
+  background: url('images/zwartevilt.png');
+}
+
+.social-link {
+  font-size: 16px;
+}
+
+.card-content {
+  height: 150px;
+}

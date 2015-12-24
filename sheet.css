@@ -17,24 +17,21 @@ body {
 }
 
 .card-content {
-  height: 140px;
+  height: 170px;
+  background-color: black;
 }
 
-.card .card-title {
-  color: #e0e0e0;
+.card .card-content p {
+  color: #fff;
+  font-size: 14px;
+}
+
+.card .card-title a {
   font-size: 20px;
-}
-
-.card .card-title p {
-  color: #bdbdbd;
-  font-size: 16px;
-}
-
-.card .card-action a {
   color: #29b6f6;
   text-transform: none;
 }
 
-.card .card-action a:hover {
+.card .card-title a:hover {
   color: #795548;
 }

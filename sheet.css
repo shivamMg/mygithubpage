@@ -1,5 +1,6 @@
 * {
   font-family: 'Raleway';
+  text-shadow: 2px 2px 2px #000000  ;
 }
 
 body {
@@ -10,6 +11,21 @@ body {
    * Under https://creativecommons.org/licenses/by-sa/3.0/
    */
   background: url('images/zwartevilt.png');
+}
+
+.fold {
+  width: 0;
+  height: 0;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: #000;
+  border-left-width: 45px;
+  border-left-style: solid;
+  border-left-color: transparent;
+  box-shadow: -3px 6px 13px #000;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 a.social-link {

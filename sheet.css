@@ -51,9 +51,12 @@ a.social-link:hover {
 }
 
 .card .card-title a {
-  font-size: 20px;
+  font-size: 18px;
   color: #29b6f6;
   text-transform: none;
+  transition: all 300ms linear;
+  transition-delay: 500ms;
+  -webkit-transition-delay: 500ms;
 }
 
 .card .card-title a:hover {

@@ -1,9 +1,9 @@
 var s = Snap("#fluorine");
 var clientWidth = window.innerWidth || document.body.clientWidth;
 var centerX = clientWidth / 2;
-var centerY = 140;
-var innerOrbitRadius = 70;
-var outerOrbitRadius = 100;
+var centerY = 110;
+var innerOrbitRadius = 50;
+var outerOrbitRadius = 80;
 var nucleusRadius = 30;
 var electrons = [];
 var nucleons = [];
@@ -43,7 +43,9 @@ var protonCenters = [
 ];
 for (var i = 0; i < protonCenters.length; i++) {
   var p = s.circle(protonCenters[i][0], protonCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#3e2723-#261614"),
+    fill: s.gradient("r(0.5, 0.5, 0.5)#00af3d-#01842f"),
+    stroke: "#006824",
+    strokeWidth: 1
   });
   nucleons.push(p);
 }
@@ -61,12 +63,16 @@ var neutronCenters = [
   [centerX + 5, centerY + 18],
 ];
 var n = s.circle(centerX, centerY, 6).attr({
-  fill: s.gradient("r(0.5, 0.5, 0.5)#514f4f-#1c1818")
+  fill: s.gradient("r(0.5, 0.5, 0.5)#840101-#660101"),
+  stroke: "#540303",
+  strokeWidth: 1
 });
 
 for (var i = 0; i < neutronCenters.length; i++) {
   var n = s.circle(neutronCenters[i][0], neutronCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#514f4f-#1c1818")
+    fill: s.gradient("r(0.5, 0.5, 0.5)#840101-#660101"),
+    stroke: "#540303",
+    strokeWidth: 1
   });
   nucleons.push(n);
 }

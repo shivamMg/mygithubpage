@@ -24,66 +24,61 @@ var electronCenters = [
 ];
 for (var i = 0; i < electronCenters.length; i++) {
   var e = s.circle(electronCenters[i][0], electronCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#0000fc-#0101bc")
+    fill: s.gradient("r(0.5, 0.5, 0.5)#aaa-#ccc")
   });
   electrons.push(e);
 }
 
-// 9 Protons
-var protonCenters = [
-  [centerX, centerY - 10],
-  [centerX, centerY + 10],
-  [centerX - 10, centerY],
-  [centerX + 10, centerY],
-  [centerX + 15, centerY - 15],
-  [centerX + 20, centerY + 5],
-  [centerX + 18, centerY + 12],
-  [centerX - 5, centerY + 18],
-  [centerX - 18, centerY - 4],
+var nucleonCenters = [
+  // 9 Protons + 10 Neutrons
+  ["p", centerX + 6, centerY - 16],
+  ["n", centerX - 6, centerY - 16],
+  ["n", centerX + 16, centerY - 6],
+  ["p", centerX + 16, centerY + 6],
+  ["n", centerX + 6, centerY + 16],
+  ["p", centerX - 6, centerY + 16],
+  ["n", centerX - 16, centerY - 6],
+  ["p", centerX - 16, centerY + 6],
+
+  ["p", centerX, centerY + 10],
+  ["p", centerX - 10, centerY],
+  ["p", centerX + 10, centerY],
+  ["p", centerX, centerY - 10],
+
+  ["n", centerX - 10, centerY - 10],
+  ["n", centerX + 10, centerY - 10],
+  ["n", centerX - 10, centerY + 10],
+  ["n", centerX + 10, centerY + 10],
 ];
-for (var i = 0; i < protonCenters.length; i++) {
-  var p = s.circle(protonCenters[i][0], protonCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#00af3d-#01842f"),
-    stroke: "#006824",
-    strokeWidth: 1
-  });
-  nucleons.push(p);
+
+for (var i = 0; i < nucleonCenters.length; i++) {
+  if (nucleonCenters[i][0] == "p") {
+    var p = s.circle(nucleonCenters[i][1], nucleonCenters[i][2], 6).attr({
+      fill: s.gradient("r(0.5, 0.5, 0.5)#ccc-#aaa"),
+      strokeWidth: 1
+    });
+    nucleons.push(p);
+  } else {
+    var n = s.circle(nucleonCenters[i][1], nucleonCenters[i][2], 6).attr({
+      fill: s.gradient("r(0.5, 0.5, 0.5)#0000fc-#0000ce"),
+      stroke: "#0101bc",
+      strokeWidth: 1
+    });
+    nucleons.push(n);
+  }
 }
 
-// 10 Neutrons
-var neutronCenters = [
-  [centerX - 10, centerY - 10],
-  [centerX + 10, centerY - 10],
-  [centerX - 10, centerY + 10],
-  [centerX + 10, centerY + 10],
-  [centerX + 5, centerY - 16],
-  [centerX + 20, centerY - 5],
-  [centerX - 5, centerY - 18],
-  [centerX - 18, centerY + 6],
-  [centerX + 5, centerY + 18],
-];
 var n = s.circle(centerX, centerY, 6).attr({
-  fill: s.gradient("r(0.5, 0.5, 0.5)#840101-#660101"),
-  stroke: "#540303",
+  fill: s.gradient("r(0.5, 0.5, 0.5)#0000fc-#0101bc"),
+  stroke: "#0101bc",
   strokeWidth: 1
 });
 
-for (var i = 0; i < neutronCenters.length; i++) {
-  var n = s.circle(neutronCenters[i][0], neutronCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#840101-#660101"),
-    stroke: "#540303",
-    strokeWidth: 1
-  });
-  nucleons.push(n);
-}
-
-// Save all Nucleon centers
-var nucleonCenters = protonCenters.concat(neutronCenters);
 // Displacement of nucleon toward nucleon perimeter
 var dispXY = [];
 for (var i = 0; i < nucleonCenters.length; i++) {
-  var nx = nucleonCenters[i][0];
-  var ny = nucleonCenters[i][1];
+  var nx = nucleonCenters[i][1];
+  var ny = nucleonCenters[i][2];
   var d = Math.sqrt(Math.pow(centerX - nx, 2) + Math.pow(centerY - ny, 2));
   var sinT = (nx - centerX) / d;
   var cosT = (ny - centerY) / d;
@@ -116,8 +111,8 @@ function scatterNucleons() {
 
 function convergeNucleons() {
   for (var i = 0; i < nucleons.length; i++) {
-    var nx = nucleonCenters[i][0];
-    var ny = nucleonCenters[i][1];
+    var nx = nucleonCenters[i][1];
+    var ny = nucleonCenters[i][2];
     var x = nucleons[i].node.cx.baseVal.value;
     var y = nucleons[i].node.cy.baseVal.value;
 

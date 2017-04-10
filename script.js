@@ -1,129 +1,172 @@
-var s = Snap("#fluorine");
+var ele = document.getElementById("fluorine");
 var clientWidth = window.innerWidth || document.body.clientWidth;
 var centerX = clientWidth / 2;
-var centerY = 110;
-var innerOrbitRadius = 50;
-var outerOrbitRadius = 80;
-var nucleusRadius = 30;
-var electrons = [];
-var nucleons = [];
-
-// 9 Electrons
+var centerY = 220 / 2;
+var INNERORBITRADIUS = 50;
+var OUTERORBITRADIUS = 80;
+var NUCLEUSRADIUS = 30;
 // Angle between electrons in outer orbit
 var ANGLE = (Math.PI * 2) / 7;
+var DEGREE = Math.PI / 180;
+var two = new Two({ width: clientWidth, height: 220 }).appendTo(ele);
+
+
+// 9 Electrons
+var outerElectrons = two.makeGroup();
+var innerElectrons = two.makeGroup();
 var electronCenters = [
-  [centerX, centerY - innerOrbitRadius],
-  [centerX, centerY + innerOrbitRadius],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 1), centerY - outerOrbitRadius * Math.cos(ANGLE * 1)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 2), centerY - outerOrbitRadius * Math.cos(ANGLE * 2)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 3), centerY - outerOrbitRadius * Math.cos(ANGLE * 3)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 4), centerY - outerOrbitRadius * Math.cos(ANGLE * 4)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 5), centerY - outerOrbitRadius * Math.cos(ANGLE * 5)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 6), centerY - outerOrbitRadius * Math.cos(ANGLE * 6)],
-  [centerX + outerOrbitRadius * 1 * Math.sin(ANGLE * 7), centerY - outerOrbitRadius * Math.cos(ANGLE * 7)]
+  [0, -INNERORBITRADIUS],
+  [0, INNERORBITRADIUS],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 1), -OUTERORBITRADIUS * Math.cos(ANGLE * 1)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 2), -OUTERORBITRADIUS * Math.cos(ANGLE * 2)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 3), -OUTERORBITRADIUS * Math.cos(ANGLE * 3)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 4), -OUTERORBITRADIUS * Math.cos(ANGLE * 4)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 5), -OUTERORBITRADIUS * Math.cos(ANGLE * 5)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 6), -OUTERORBITRADIUS * Math.cos(ANGLE * 6)],
+  [OUTERORBITRADIUS * Math.sin(ANGLE * 7), -OUTERORBITRADIUS * Math.cos(ANGLE * 7)],
 ];
-for (var i = 0; i < electronCenters.length; i++) {
-  var e = s.circle(electronCenters[i][0], electronCenters[i][1], 6).attr({
-    fill: s.gradient("r(0.5, 0.5, 0.5)#aaa-#ccc")
-  });
-  electrons.push(e);
+
+for (var i = 0; i < 2; i++) {
+  var e = two.makeCircle(electronCenters[i][0], electronCenters[i][1], 6);
+  e.fill = "#aaa";
+  innerElectrons.add(e);
 }
 
+for (var i = 2; i < electronCenters.length; i++) {
+  var e = two.makeCircle(electronCenters[i][0], electronCenters[i][1], 6);
+  e.fill = "#aaa";
+  outerElectrons.add(e);
+}
+
+outerElectrons.translation.set(centerX, centerY);
+innerElectrons.translation.set(centerX, centerY);
+
+// 9 Protons + 10 Neutrons
 var nucleonCenters = [
-  // 9 Protons + 10 Neutrons
-  ["p", centerX + 6, centerY - 16],
-  ["n", centerX - 6, centerY - 16],
-  ["n", centerX + 16, centerY - 6],
-  ["p", centerX + 16, centerY + 6],
-  ["n", centerX + 6, centerY + 16],
-  ["p", centerX - 6, centerY + 16],
-  ["n", centerX - 16, centerY - 6],
-  ["p", centerX - 16, centerY + 6],
+  ["p", 6, -16],
+  ["n", -6, -16],
+  ["n", 16, -6],
+  ["p", 16, 6],
+  ["n", 6, 16],
+  ["p", -6, 16],
+  ["n", -16, -6],
+  ["p", -16, 6],
 
-  ["p", centerX, centerY + 10],
-  ["p", centerX - 10, centerY],
-  ["p", centerX + 10, centerY],
-  ["p", centerX, centerY - 10],
+  ["p", 0, 10],
+  ["p", -10, 0],
+  ["p", 10, 0],
+  ["p", 0, -10],
 
-  ["n", centerX - 10, centerY - 10],
-  ["n", centerX + 10, centerY - 10],
-  ["n", centerX - 10, centerY + 10],
-  ["n", centerX + 10, centerY + 10],
+  ["n", -10, -10],
+  ["n", 10, -10],
+  ["n", -10, 10],
+  ["n", 10, 10],
 ];
 
+var nucleons = [];
+var nucleonsGrp = two.makeGroup();
 for (var i = 0; i < nucleonCenters.length; i++) {
+  var nucleon = two.makeCircle(nucleonCenters[i][1], nucleonCenters[i][2], 6);
   if (nucleonCenters[i][0] == "p") {
-    var p = s.circle(nucleonCenters[i][1], nucleonCenters[i][2], 6).attr({
-      fill: s.gradient("r(0.5, 0.5, 0.5)#ccc-#aaa"),
-      strokeWidth: 1
-    });
-    nucleons.push(p);
+    nucleon.fill = "#bcbcbc";
+    nucleon.linewidth = 0.5;
+    nucleon.stroke = "#848484";
   } else {
-    var n = s.circle(nucleonCenters[i][1], nucleonCenters[i][2], 6).attr({
-      fill: s.gradient("r(0.5, 0.5, 0.5)#0000fc-#0000ce"),
-      stroke: "#0101bc",
-      strokeWidth: 1
-    });
-    nucleons.push(n);
+    nucleon.fill = "#1111ff";
+    nucleon.linewidth = 0.5;
+    nucleon.stroke = "#424242";
   }
+  nucleonsGrp.add(nucleon);
+  nucleons.push(nucleon);
 }
 
-var n = s.circle(centerX, centerY, 6).attr({
-  fill: s.gradient("r(0.5, 0.5, 0.5)#0000fc-#0101bc"),
-  stroke: "#0101bc",
-  strokeWidth: 1
-});
+// Center Nucleon (Neutron)
+var n = two.makeCircle(0, 0, 6);
+n.fill = "#1111ff";
+n.linewidth = 0;
+nucleonsGrp.add(n);
 
-// Displacement of nucleon toward nucleon perimeter
+nucleonsGrp.translation.set(centerX, centerY);
+
+// Overlay to bind functions to
+var nucleonOverlay = two.makeCircle(centerX, centerY, NUCLEUSRADIUS);
+nucleonOverlay.fill = "transparent";
+nucleonOverlay.linewidth = 0;
+
+two.update();
+
+// Animate electrons
+two.bind("update", function(frameCount) {
+  innerElectrons.rotation -= DEGREE;
+  outerElectrons.rotation += DEGREE;
+}).play();
+
+// Used for binding events
+var overlayEle = document.getElementById(nucleonOverlay.id);
+
+// Used in normalizing displacement
+var SLICES = 20;
+
+// Displacement for nucleons toward the nucleus perimeter
 var dispXY = [];
 for (var i = 0; i < nucleonCenters.length; i++) {
-  var nx = nucleonCenters[i][1];
-  var ny = nucleonCenters[i][2];
+  var nx = nucleonCenters[i][1] + centerX;
+  var ny = nucleonCenters[i][2] + centerY;
   var d = Math.sqrt(Math.pow(centerX - nx, 2) + Math.pow(centerY - ny, 2));
   var sinT = (nx - centerX) / d;
   var cosT = (ny - centerY) / d;
-  var dispX = sinT * (nucleusRadius - d);
-  var dispY = cosT * (nucleusRadius - d);
-  dispXY.push([dispX, dispY]);
+  var dispX = sinT * (NUCLEUSRADIUS - d);
+  var dispY = cosT * (NUCLEUSRADIUS - d);
+  // Normalizing for later use
+  dispXY.push([dispX / SLICES, dispY / SLICES]);
 }
 
-function animateElectron(electron, duration, clockwise) {
-  electron.transform("r0 " + [centerX, centerY]);
-  electron.animate({ transform: ((clockwise) ? "r360 " : "r-360 ") + [centerX, centerY] }, duration, mina.linear, function() {
-    animateElectron(electron, duration, clockwise);
-  });
-}
-
-function animateElectrons() {
-  for (var i = 0; i < 2; i++) {
-    animateElectron(electrons[i], 5000, false);
+var counterToSlice1 = 1;
+function scatterNucleons(frameCount) {
+  if (counterToSlice1 > SLICES) {
+    two.unbind("update", scatterNucleons);
+    return;
   }
-  for (var i = 2; i < electrons.length; i++) {
-    animateElectron(electrons[i], 6000, true);
-  }
-}
 
-function scatterNucleons() {
   for (var i = 0; i < nucleons.length; i++) {
-    nucleons[i].animate({ transform: "t" + dispXY[i] }, 200, mina.linear);
+    nucleons[i].translation.set(
+      nucleons[i].translation.x + dispXY[i][0],
+      nucleons[i].translation.y + dispXY[i][1]
+    );
   }
+  counterToSlice1++;
 }
 
-function convergeNucleons() {
+overlayEle.onmouseenter = function() {
+  two.bind("update", scatterNucleons).play();
+}
+
+var counterToSlice2 = 1;
+overlayEle.onmouseleave = function() {
+  two.unbind("update", scatterNucleons);
+  counterToSlice1 = 1;
+
+  var sliceArray = [];
   for (var i = 0; i < nucleons.length; i++) {
-    var nx = nucleonCenters[i][1];
-    var ny = nucleonCenters[i][2];
-    var x = nucleons[i].node.cx.baseVal.value;
-    var y = nucleons[i].node.cy.baseVal.value;
-
-    nucleons[i].animate({ transform: "t" + [x - nx, y - ny] }, 200, mina.linear);
+    var dispX = (nucleons[i].translation.x - nucleonCenters[i][1]) / SLICES;
+    var dispY = (nucleons[i].translation.y - nucleonCenters[i][2]) / SLICES;
+    sliceArray.push([dispX, dispY]);
   }
-}
 
-animateElectrons();
-var nucleus = s.circle(centerX, centerY, nucleusRadius).attr({
-    fill: "transparent",
-    stroke: "none"
-  });
-nucleus.mouseover(scatterNucleons);
-nucleus.mouseout(convergeNucleons);
+  function convergeNucleons() {
+    if (counterToSlice2 > SLICES) {
+      two.unbind("update", convergeNucleons);
+      counterToSlice2 = 1;
+      return;
+    }
+
+    for (var i = 0; i < nucleons.length; i++) {
+      nucleons[i].translation.set(
+        nucleons[i].translation.x - sliceArray[i][0],
+        nucleons[i].translation.y - sliceArray[i][1]
+      );
+    }
+    counterToSlice2++;
+  }
+  two.bind("update", convergeNucleons);
+}

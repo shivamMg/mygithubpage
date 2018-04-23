@@ -1,5 +1,7 @@
 var ele = document.getElementById("fluorine");
-var clientWidth = window.innerWidth || document.body.clientWidth;
+// canvas is overflowing to the right
+var overflowOffset = 15;
+var clientWidth = (window.innerWidth || document.body.clientWidth) - overflowOffset;
 var centerX = clientWidth / 2;
 var centerY = 220 / 2;
 var INNERORBITRADIUS = 50;
@@ -8,7 +10,7 @@ var NUCLEUSRADIUS = 30;
 // Angle between electrons in outer orbit
 var ANGLE = (Math.PI * 2) / 7;
 var DEGREE = Math.PI / 180;
-var two = new Two({ width: clientWidth, height: 220 }).appendTo(ele);
+var two = new Two({ width: clientWidth - overflowOffset, height: 220 }).appendTo(ele);
 
 
 // 9 Electrons

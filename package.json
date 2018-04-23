@@ -1,0 +1,37 @@
+{
+  "name": "mygithubpage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivamMg/mygithubpage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivamMg/mygithubpage/issues"
+  },
+  "homepage": "https://github.com/shivamMg/mygithubpage#readme",
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-inline-source-plugin": "0.0.10",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^7.0.1",
+    "style-ext-html-webpack-plugin": "^3.4.7",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^3.11.0",
+    "webpack-cli": "^1.5.3"
+  },
+  "dependencies": {
+    "materialize-css": "^0.98.0",
+    "two.js": "^0.5.0"
+  }
+}

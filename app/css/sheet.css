@@ -40,3 +40,22 @@ a.social-link:hover {
   color: #795548;
 }
 
+.github {
+  content: url('../images/github.svg');
+}
+
+.twitter {
+  content: url('../images/twitter.svg');
+}
+
+.google-plus {
+  content: url('../images/google-plus.svg');
+}
+
+.linkedin {
+  content: url('../images/linkedin.svg');
+}
+
+.blogger {
+  content: url('../images/blogger.svg');
+}

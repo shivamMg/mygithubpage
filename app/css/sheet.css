@@ -13,6 +13,10 @@ body {
   background: url('../images/zwartevilt2.png');
 }
 
+#fluorine {
+  height: 220px;
+}
+
 .fold {
   width: 0;
   height: 0;
